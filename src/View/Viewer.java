@@ -32,7 +32,6 @@ public class Viewer {
         frame.setLayout(new BorderLayout());
 
         queueScrollPane = new JScrollPane();
-        queueScrollPane.
         frame.add(queueScrollPane, BorderLayout.CENTER);
 
         infoPanel = new JPanel(new GridLayout(4, 2));

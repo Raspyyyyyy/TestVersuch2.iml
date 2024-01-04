@@ -7,6 +7,7 @@ import View.Viewer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class DataController {
 
@@ -75,32 +76,59 @@ public DataController(Viewer view){
 
 
 public String checkDisease(int check) {
+    Queue<String> patientQueueCopy = copyQueue(patientQueue);
 
-    for (int i = 0; i < patient.length; i++) {
-        if (patient[i] == 0 && listInfo.getSelectedIndex() == check - 1) {
-
-            return "Bauch400";
+    int count = 0;
+    while (!patientQueueCopy.isEmpty()) {
+        if (count == check - 1) {
+            break;
         }
-        if (patient[i] == 1 && listInfo.getSelectedIndex() == check - 1) {
-
-
-            return "Allergie400";
-        }
-        if (patient[i] == 2 && listInfo.getSelectedIndex() == check - 1) {
-
-
-            return "Husten400";
-        }
-        if (patient[i] == 3 && listInfo.getSelectedIndex() == check - 1) {
-
-
-            return "Andere400";
-        }
-
+        count++;
+        patientQueueCopy.dequeue();
     }
-    return "nope";
+    if (patientQueueCopy.front() != null) {
+        return patientQueueCopy.front();
+    }
+    return "Die Krankheit des Patienten konnte nicht identifiziert werden";
 }
 
+public String getDisease(){
+    String selectedPatient = listInfo.getSelectedValue();
+        if (selectedPatient != null) {
+            String selectedDisease = medicationList.getDiseaseFromPatient(selectedPatient);
+            if (Objects.equals(selectedDisease, "Husten")) {
+                System.out.println("Husten");
+            }
+            if (Objects.equals(selectedDisease, "Bauchschmerzen")) {
+                System.out.println("Bauchschmerzen");
+            }
+            if (Objects.equals(selectedDisease, "Allergie")) {
+                System.out.println("Allergie");
+            }
+            if (Objects.equals(selectedDisease, "Andere")) {
+                System.out.println("Andere");
+            }
+        }
+        return "Die Krankheit des Patienten konnte nicht Identifiziert werden";
+    }
+
+
+public static <ContentType> Queue<ContentType> copyQueue(Queue<ContentType> queue) {
+    Queue<ContentType> help = new Queue<>();
+    Queue<ContentType> copy = new Queue<>();
+
+    while (!queue.isEmpty()) {
+        copy.enqueue(queue.front());
+        help.enqueue(queue.front());
+        queue.dequeue();
+    }
+
+    while(!help.isEmpty()){
+        queue.enqueue(help.front());
+        help.dequeue();
+    }
+    return copy;
+}
 
 
 
@@ -130,7 +158,6 @@ public String checkDisease(int check) {
         view.clearInputFields();
         view.enqueueConfirmation();
 
-
     }
 
 
@@ -147,6 +174,7 @@ public String checkDisease(int check) {
             view.displayMedication(medication);
         }
     }
+
 
 
 

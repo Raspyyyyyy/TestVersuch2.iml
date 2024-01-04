@@ -29,10 +29,7 @@ public class MedicationList extends List<String>{
 
 
     public String getDiseaseFromPatient(String patientInfo) {
-
-            System.out.println(dataController.checkDisease(dataController.checkNumberOfPatients()));
+            System.out.println(dataController.checkDisease(view.queueScrollPane.getComponentCount()));
         return null;
     }
-
-
 }
